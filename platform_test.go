@@ -1,7 +1,7 @@
 package main
 
 import (
-	"reflect"
+	"gopkg.in/d4l3k/messagediff.v1"
 	"testing"
 )
 
@@ -20,8 +20,9 @@ func TestSupportedPlatforms(t *testing.T) {
 	var ps []Platform
 	for _, test := range tests {
 		ps = SupportedPlatforms(test.version)
-		if !reflect.DeepEqual(ps, test.platforms) {
-			t.Fatalf("Supported platforms for version %s were not properly combined:\nExpected: %v\nActual: %v", test.version, test.platforms, ps)
+		diff, equal := messagediff.PrettyDiff(test.platforms, ps)
+		if !equal {
+			t.Errorf("Support platforms for version %s were not properly combined:\n%s", test.version, diff)
 		}
 	}
 }
