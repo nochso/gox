@@ -5,32 +5,23 @@ import (
 	"testing"
 )
 
+var tests = []struct {
+	version   string
+	platforms []Platform
+}{
+	{"go1.0", Platforms_1_0},
+	{"go1.1", Platforms_1_1},
+	{"go1.3", Platforms_1_3},
+	{"go1.4", Platforms_1_4},
+	{"foo", Platforms_1_4},
+}
+
 func TestSupportedPlatforms(t *testing.T) {
 	var ps []Platform
-
-	ps = SupportedPlatforms("go1.0")
-	if !reflect.DeepEqual(ps, Platforms_1_0) {
-		t.Fatalf("bad: %#v", ps)
-	}
-
-	ps = SupportedPlatforms("go1.1")
-	if !reflect.DeepEqual(ps, Platforms_1_1) {
-		t.Fatalf("bad: %#v", ps)
-	}
-
-	ps = SupportedPlatforms("go1.3")
-	if !reflect.DeepEqual(ps, Platforms_1_3) {
-		t.Fatalf("bad: %#v", ps)
-	}
-
-	ps = SupportedPlatforms("go1.4")
-	if !reflect.DeepEqual(ps, Platforms_1_4) {
-		t.Fatalf("bad: %#v", ps)
-	}
-
-	// Unknown
-	ps = SupportedPlatforms("foo")
-	if !reflect.DeepEqual(ps, Platforms_1_4) {
-		t.Fatalf("bad: %#v", ps)
+	for _, test := range tests {
+		ps = SupportedPlatforms(test.version)
+		if !reflect.DeepEqual(ps, test.platforms) {
+			t.Fatalf("Supported platforms for version %s were not properly combined:\nExpected: %v\nActual: %v", test.version, test.platforms, ps)
+		}
 	}
 }
