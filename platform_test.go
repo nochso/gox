@@ -13,7 +13,8 @@ var tests = []struct {
 	{"go1.1", Platforms_1_1},
 	{"go1.3", Platforms_1_3},
 	{"go1.4", Platforms_1_4},
-	{"foo", Platforms_1_4},
+	{"go1.5", Platforms_1_5},
+	{"foo", Platforms_1_5},
 }
 
 func TestSupportedPlatforms(t *testing.T) {
